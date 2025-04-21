@@ -1,0 +1,6 @@
+const CreateUser = () =>{
+    return (
+        <>
+        </>
+    )
+}

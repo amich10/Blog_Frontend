@@ -1,0 +1,42 @@
+import { Layout,Menu } from "antd";
+import { HomeOutlined,FileTextOutlined ApartmentOutlined, UserOutlined, ShopOutlined, ShoppingCartOutlined, DollarCircleOutlined, MessageOutlined } from "@ant-design/icons";
+import { NavLink } from "react-router";
+
+const AdminSideBar = ({collapsed}:{collapsed:boolean}) => {
+    return(
+        <>
+         <Layout.Sider trigger={null} collapsible collapsed={collapsed} collapsedWidth={0}>
+        <Menu
+          theme="light"
+          mode="inline"
+          className='h-screen'
+          defaultSelectedKeys={['1']}
+          items={[
+            {
+              key: '1',
+              icon: <HomeOutlined />,
+              label: <NavLink to="/admin">Dashboard</NavLink>
+            },
+            {
+              key: '2',
+              icon: <UserOutlined />,
+              label: <NavLink to="/admin/users">Users</NavLink>
+            },
+              {
+                key: '3',
+                icon: <ApartmentOutlined />,
+                label: <NavLink to="/admin/category">Category</NavLink>
+              },
+              {
+                key: '4',
+                icon: <FileTextOutlined />,
+                label: <NavLink to="/admin/products">Posts</NavLink>
+              },
+
+          ]}
+        />
+      </Layout.Sider>
+        </>
+    )
+}
+export default AdminSideBar;

@@ -1,0 +1,18 @@
+import { toast } from "react-toastify"
+
+
+
+export enum NotificationType {
+    SUCCESS="success",
+    ERROR="error",
+    WARNING="warning",
+    INFO="info"
+}
+
+const notifcation = (msg:string,type=NotificationType) =>{
+    if(type ==="success"){
+        toast.success(msg)
+    }
+}
+
+export default notifcation;

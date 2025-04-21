@@ -1,0 +1,51 @@
+import { createContext, ReactNode, useContext } from "react";
+
+
+
+export interface ICredentials{
+    username:string,
+    password:string
+}
+export const AuthContext = createContext({
+    login:async(credentials:ICredentials):Promise<void>=> {}
+})
+
+//main
+
+export interface IChildren{
+    children:ReactNode
+}
+export const AuthProvider = ({ children }: IChildren) =>{
+
+    const LoginFunc = async(credentials:ICredentials) =>{
+        try {
+            console.log(credentials)
+        } catch (exception) {
+            console.log(exception)
+        }
+    }
+
+    return (
+        <>
+        <AuthContext.Provider value={{
+            login:LoginFunc
+        }}>
+            {children}
+        </AuthContext.Provider>
+        </>
+    )
+} 
+
+//custom Hook
+export const useAuth = () =>{
+   const {login} = useContext(AuthContext)
+   return {
+    login
+   }
+}
+
+
+/* to use this value in Components;
+const {login} = useAuth() */
+
+

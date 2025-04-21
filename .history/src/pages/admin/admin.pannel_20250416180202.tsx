@@ -1,0 +1,6 @@
+const AdminPannelPage = () =>{
+    return (
+        <>
+        </>
+    )
+}

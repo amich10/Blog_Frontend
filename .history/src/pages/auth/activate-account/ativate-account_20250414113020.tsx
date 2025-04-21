@@ -1,0 +1,8 @@
+
+
+const ActivateAccountPage = () =>{
+    return (
+        <>
+        </>
+    )
+}

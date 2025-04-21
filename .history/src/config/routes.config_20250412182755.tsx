@@ -1,0 +1,17 @@
+import { createBrowserRouter } from "react-router";
+
+
+export const router = createBrowserRouter([
+    {
+        path:"/",
+        Component:HomePage
+    },
+    {
+        path:"/register",
+        Component:RegisterPage
+    },
+    {
+        path:'/forget-password',
+        Component:ForgetPasswordPage
+    }
+])
