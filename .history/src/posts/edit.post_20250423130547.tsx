@@ -1,0 +1,111 @@
+import { useParams } from "react-router"
+import postSvc from "../services/post.service"
+import notifcation, { NotificationType } from "../utilities/helpers"
+import { useEffect, useState } from "react"
+import { useForm } from "react-hook-form";
+import * as Yup from "yup"
+
+
+
+
+
+
+interface IPost {
+    _id: string;
+    title: string;
+    slug: string;
+    content: string;
+    tags: string[];
+    categoryId: string;
+    authorId: string;
+    status: string;
+    views: number;
+    likes: string[];
+    commentsCount: number;
+    publishedAt: string;
+    images:[{
+        url:string,
+        optimizedUrl:string
+    }];
+    updatedBy: string | null;
+    excerpt: string;
+    createdAt: string;
+    updatedAt: string;
+}
+
+const EditPost = () =>{
+
+
+
+    const {control,handleSubmit,formState:{errors,isSubmitting},setValue} = useForm()
+
+    const params = useParams()
+    const[postData,setPostData] = useState<IPost>()
+    const[imageData,setImageData] = useState<string>()
+
+
+
+    const editPostSchema = Yup.object({
+        title: Yup.string()
+          .min(2, "Title must be at least 2 characters")
+          .max(250, "Title cannot exceed 100 characters")
+          .required("Title is required"),
+        content: Yup.string()
+          .min(10, "Content must be at least 10 characters")
+          .required("Content is required"),
+        tags: Yup.array()
+          .of(Yup.string().max(20, "Each tag cannot exceed 20 characters"))
+          .required("At least one tag is required"),
+        categoryId: Yup.string().required("Category is required"),
+        status: Yup.string().required("Status is required"),
+        images: Yup.array()
+          .of(
+            Yup.object({
+              url: Yup.string().url("Invalid URL format").required("Image URL is required"),
+              optimizedUrl: Yup.string().url("Invalid URL format").required("Optimized URL is required"),
+            })
+          )
+          .required("At least one image is required"),
+    });
+
+    const getPostById = async () => {
+        try {
+            const response = await postSvc.getRequest('/post'+params.id)
+            setPostData(response.result.data)
+        } catch (exception) {
+            throw exception
+        }
+    }
+
+    const updatePostById = async(data:IPost) =>{
+        try {
+            await postSvc.patchRequest('/post/update'+params.id, data, {file:true})
+            notifcation("Post updated successfully",NotificationType.SUCCESS)
+        } catch (exception) {
+            notifcation("Sorry, post cannot be updated now. Please, try again later",NotificationType.ERROR)
+        }
+    }
+
+    //when the component is rendered for the first time getPostByid is runned 
+    useEffect(() =>{
+       getPostById() 
+    },[])
+
+    useEffect(() => {
+        if (postData) {
+            setValue('title', postData.title);
+            setValue('content', postData.content);
+            setValue('tags', postData.tags);
+            setValue('categoryId', postData.categoryId);
+            setValue('status', postData.status);
+            setImageData(postData?.images[0]?.optimizedUrl)
+        }
+    }, [postData,setValue]);
+
+return (
+    <>
+ 
+    </>
+)
+}
+export default EditPost

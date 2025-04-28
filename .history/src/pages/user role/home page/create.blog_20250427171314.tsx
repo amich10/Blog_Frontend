@@ -1,0 +1,33 @@
+import { Layout } from "antd";
+import { InputLabel, TextInputController } from "../../../components/input.component";
+
+
+const CreateBlog = () =>{
+
+  const 
+  return (
+    <>
+    <Layout.Content className="container mx-auto px-6 py-8 bg-gray-500">
+      <div className="max-w-4xl  mx-auto bg-white rouded-xl shadow-sm  overflow-hidden ">
+
+        {/* form header */}
+        <div className="px-8 py-6 border-b border-gray-100 ">
+          <h1 className="text-2xl  font-bold text-gray-800">Create a New blog Post </h1>
+          <p className="mt-1 text-gray-500">Share your ideas and experience to the world</p>
+        </div>
+
+        {/* Blog form */}
+        <form className="px-8 py-6 space-y-6">
+          <div>
+            <InputLabel htmlFor="title" classses={"block text-sm font-medium mb-2 text-gray-700"}>Blog Title</InputLabel>
+            <TextInputController type="text" control={control}/>
+          </div>
+        </form>
+
+      </div>
+    </Layout.Content>
+    </>
+  )
+}
+
+export default CreateBlog;
