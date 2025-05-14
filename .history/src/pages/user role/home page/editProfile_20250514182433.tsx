@@ -1,0 +1,7 @@
+const EditProfile = () =>{
+    return (
+        <>
+        hELLO
+        </>
+    )
+}
