@@ -1,9 +1,10 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
-import { TablePaginationConfig } from "antd";
+import { Spin, TablePaginationConfig } from "antd";
 import { useAuth } from "./auth.context";
 import { IResponseType } from "../services/http.service";
 import notifcation, { NotificationType } from "../utilities/helpers";
 import categorySVc from "../services/category.service";
+import { LoadingOutlined } from "@ant-design/icons";
 
 
 export interface IResult {
@@ -105,7 +106,12 @@ export const CategoryProvider: React.FC<{ children: React.ReactNode }> = ({ chil
         setPagination,
       }}
     >
-      {children}
+       {/* {loading ? (
+          <Spin tip="Loading..." fullscreen indicator={<LoadingOutlined />}></Spin>
+        ) : (
+          children
+        )} */}
+        {children}
     </CategoryContext.Provider>
   );
 };

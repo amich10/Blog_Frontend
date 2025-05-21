@@ -46,7 +46,6 @@ const props: UploadProps = {
         {fileList && fileList.length ? (
           <><img src={URL.createObjectURL(fileList[0] as any)} alt="" className=" h-[50px] w-[50px]"/></>
 
-          // for preloading image in edit banner
           ) : thumbnail ? <><img src={thumbnail} className="h-[50px] w-[50px]" alt="" /></>:<img src="https://placehold.co/300x75/white/teal?text=No Image" alt="alternate image"/>} 
       </div>
      </div>

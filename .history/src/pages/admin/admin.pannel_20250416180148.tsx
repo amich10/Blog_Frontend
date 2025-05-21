@@ -1,3 +1,0 @@
-const AdminPannelPage = () =>{
-    return
-}

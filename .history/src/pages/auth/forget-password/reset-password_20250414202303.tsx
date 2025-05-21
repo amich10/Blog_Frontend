@@ -1,6 +1,0 @@
-
-const ResetPasswordPage = () =>{
-
-}
-
-export default 

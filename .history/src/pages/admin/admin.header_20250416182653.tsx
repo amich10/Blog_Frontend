@@ -1,3 +1,0 @@
-const AminHeader = () =>{
-    return 
-}

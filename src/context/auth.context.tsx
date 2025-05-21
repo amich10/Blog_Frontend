@@ -60,7 +60,6 @@ export const AuthProvider = ({ children }: IChildrenProps) => {
     try {
       const userInfo = await authSvc.getRequest("auth/me");
       setUserDetails(userInfo.result.data);
-      console.log(userDetails)
       return userInfo.result.data;
     } catch (exception) {
       throw exception
@@ -111,7 +110,8 @@ export const AuthProvider = ({ children }: IChildrenProps) => {
         setUserDetails: setUserDetails, 
       }}
     >
-      {loading ?  <Spin fullscreen tip="Loading ... " indicator={<LoadingOutlined/>}/> :children}
+     {/*  {loading ?  <Spin fullscreen tip="Loading ... " indicator={<LoadingOutlined/>}/> :children} */}
+     {children}
     </AuthContext.Provider>
   );
 };

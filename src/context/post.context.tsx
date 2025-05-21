@@ -5,7 +5,7 @@ import {
   useEffect,
   useState,
 } from "react";
-import { IPostsType } from "../interfacers or types/interfaces";
+import { IPostsType } from "../interfaces/interfaces";
 import { Spin, TablePaginationConfig } from "antd";
 import { LoadingOutlined } from "@ant-design/icons";
 import { useAuth } from "./auth.context";
@@ -37,7 +37,7 @@ export const PostProvider = ({ children }: IChildren) => {
   const [search, setSearch] = useState<string>("");
   const [pagination, setPagination] = useState<TablePaginationConfig>({
     total: 0,
-    pageSize: 100,
+    pageSize: 5,
     current: 1,
   });
 
@@ -113,11 +113,12 @@ export const PostProvider = ({ children }: IChildren) => {
           setLoading
         }}
       >
-        {loading ? (
-          <Spin tip="Loading..." indicator={<LoadingOutlined />}></Spin>
+      {/*   {loading ? (
+          <Spin tip="Loading..." fullscreen indicator={<LoadingOutlined />}></Spin>
         ) : (
           children
-        )}
+        )} */}
+        {children}
       </PostContext.Provider>
     </>
   );

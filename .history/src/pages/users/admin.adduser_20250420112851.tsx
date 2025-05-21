@@ -1,6 +1,0 @@
-const CreateUser = () =>{
-    return (
-        <>
-        </>
-    )
-}

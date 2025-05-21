@@ -1,4 +1,4 @@
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { useEffect, useState } from "react";
 import postSvc from "../../services/post.service";
 import notifcation, { NotificationType } from "../../utilities/helpers";
@@ -13,10 +13,10 @@ import {
 import commentSVc from "../../services/comment.service";
 import { useForm } from "react-hook-form";
 import { TextAreaController } from "../../components/input.component";
-import { useAuth } from "../../context/auth.context"; // assuming you have auth context to get the current user
 import { useUsers } from "../../context/user.context";
 import userSvc from "../../services/user.service";
 import { useCategory } from "../../context/category.context";
+import { useAuth } from "../../context/auth.context";
 
 type BlogPost = {
   authorId: string;
@@ -47,21 +47,25 @@ const PostDetail = () => {
   const [totalComment, setTotalComment] = useState<number>(0);
   const [viewsCount, setViewsCount] = useState<number>(0);
   const [liked, setLiked] = useState<boolean>(false);
-  const {users} = useUsers()
-  const {data}= useCategory()
-  const { userDetails } = useAuth(); // assuming the current user is accessible from auth context
-  localStorage.setItem('userId', userDetails._id);
+  const { users } = useUsers();
+  const { data } = useCategory();
+  const { userDetails,setUserDetails } = useAuth();
+  const navigate = useNavigate();
 
   const fetchPost = async () => {
     try {
       const response = await postSvc.getRequest(`/post/${slug}`);
-      setPost(response.result.data);
+      const fetchedPost = response.result.data;
+      setPost(fetchedPost);
 
-      // Check if the current user has liked the post
-      const userId = localStorage.getItem('userId');
-      setLiked(response.result.data.likes.includes(userId));
+      if (userDetails?._id) {
+        setLiked(fetchedPost.likes.includes(userDetails._id));
+      }
     } catch (exception) {
-      notifcation("Sorry, the post cannot be fetched now.", NotificationType.ERROR);
+      notifcation(
+        "Sorry, the post cannot be fetched now.",
+        NotificationType.ERROR
+      );
     }
   };
 
@@ -86,6 +90,7 @@ const PostDetail = () => {
       notifcation("Comment posted successfully!", NotificationType.SUCCESS);
       reset();
       fetchComments();
+      totalComments();
     } catch (exception) {
       notifcation("Failed to post comment.", NotificationType.ERROR);
     }
@@ -96,7 +101,6 @@ const PostDetail = () => {
       const apiEndpoint = liked ? `/post/unlike/${slug}` : `/post/like/${slug}`;
       const response = await postSvc.patchRequest(apiEndpoint, {});
 
-      // Update the post's likes and likes count
       setPost((prevPost) => {
         if (!prevPost) return null;
 
@@ -106,39 +110,31 @@ const PostDetail = () => {
           likesCount: response.result.data.likes.length,
         };
       });
-
-      // Toggle the liked state
       setLiked(!liked);
-
-      // Show appropriate notification
       notifcation(
         liked ? "Post unliked successfully!" : "Post liked successfully!",
         NotificationType.INFO
       );
-    } catch (exception) {
+    } catch (exception: any) {
       console.log(exception);
-      notifcation("Action failed.", NotificationType.ERROR);
+      notifcation(exception.response.message, NotificationType.INFO);
     }
   };
 
-  // user id that authUser wants to follow
-  const authorId = post?.authorId
+  const authorId = post?.authorId;
   useEffect(() => {
     const fetchFollowStatus = async () => {
       try {
         const res = await userSvc.getRequest(`/user/${authorId}/follow-status`);
-        console.log(res)
+        console.log(res);
         setIsFollowing(res.result.data.isFollowing);
       } catch (error) {
         console.error("Failed to fetch follow status");
       }
     };
-  
+
     if (authorId) fetchFollowStatus();
   }, [authorId]);
-
-
-
 
   const totalComments = async () => {
     try {
@@ -161,13 +157,13 @@ const PostDetail = () => {
   };
 
   useEffect(() => {
-    if (slug) {
+    if (slug && userDetails) {
       fetchPost();
       fetchComments();
       totalComments();
       getViewsCount();
     }
-  }, [slug]);
+  }, [slug,userDetails]);
 
   if (!post)
     return (
@@ -180,42 +176,62 @@ const PostDetail = () => {
         {/* Left Side */}
         <div className="w-3/4 h-full border-r border-gray-200 px-8 py-2">
           <div className="p-6 rounded-lg">
-            <h1 className="font-bold text-4xl mb-6 text-[#4f6f52]">{post.title}</h1>
+            <h1 className="font-bold text-4xl mb-6 text-[#4f6f52]">
+              {post.title}
+            </h1>
             <div className="flex items-center gap-4 mb-6">
               <Avatar
-              size="large"
-              src={users.find((user) => user._id === post.authorId)?.image?.optimizedUrl}
-              icon={<UserOutlined />}
+                size="large"
+                src={
+                  users.find((user) => user._id === post.authorId)?.image
+                    ?.optimizedUrl
+                }
+                icon={<UserOutlined />}
               />
               <div className="flex flex-col">
-              <span className="font-semibold text-md">
-                {users.find((user) => user._id === post.authorId)?.username || "Unknown"}
-              </span>
-              <span className="text-gray-500 text-xs">
-                Published on {new Date(post.createdAt).toLocaleDateString()}
-              </span>
+                <span
+                  className="font-semibold text-md cursor-pointer hover:underline"
+                  onClick={() =>
+                    post.authorId === userDetails._id
+                      ? navigate("/blogs/my-profile")
+                      : navigate(`/blogs/profile/${post.authorId}`)
+                  }
+                >
+                  {users.find((user) => user._id === post.authorId)?.username ||
+                    "Unknown"}
+                </span>
+                <span className="text-gray-500 text-xs">
+                  Published on {new Date(post.createdAt).toLocaleDateString()}
+                </span>
               </div>
-              <Button
-              type="primary"
-              shape="round"
-              className="ml-auto! bg-[#4f6f52]!"
-              onClick={async () => {
-                try {
-
-                  await userSvc.postRequest(`/user/${authorId}/follow`,{});
-                  setIsFollowing((prev) => !prev);
-                  notifcation("You have followd the user",NotificationType.INFO)
-                } catch (err) {
-                  notifcation("Follow action failed", NotificationType.ERROR);
-                }
-              }}
-            >
-              {isFollowing ? "unFollow" : "Follow"}
-              </Button>
+              {post.authorId !== userDetails._id && (
+                <Button
+                  type="primary"
+                  shape="round"
+                  className="ml-auto! bg-[#4f6f52]!"
+                  onClick={async () => {
+                    try {
+                      const res = await userSvc.postRequest(`/user/${authorId}/follow`, {});
+                      setIsFollowing((prev) => !prev);
+                      notifcation(
+                      res.result.message,
+                        NotificationType.INFO
+                      );
+                    } catch (err) {
+                      notifcation(
+                        "Follow action failed",
+                        NotificationType.ERROR
+                      );
+                    }
+                  }}
+                >
+                  {isFollowing ? "unFollow" : "Follow"}
+                </Button>
+              )}
             </div>
             <div className="flex items-center gap-4 mb-4">
               <span className="text-blue-700 font-bold bg-blue-100 py-1 px-3 rounded-lg">
-              {data.find((cat) => cat._id === post.categoryId)?.title}
+                {data.find((cat) => cat._id === post.categoryId)?.title}
               </span>
               <Button
                 type="text"

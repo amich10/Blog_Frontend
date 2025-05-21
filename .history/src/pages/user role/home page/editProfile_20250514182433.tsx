@@ -1,7 +1,0 @@
-const EditProfile = () =>{
-    return (
-        <>
-        hELLO
-        </>
-    )
-}

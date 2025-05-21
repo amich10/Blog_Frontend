@@ -1,3 +1,0 @@
-const UserProfilePage = () =>{
-    ret
-}

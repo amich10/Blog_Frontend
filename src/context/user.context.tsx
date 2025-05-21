@@ -1,4 +1,4 @@
-import { Spin, TablePaginationConfig } from "antd";
+import { Spin } from "antd";
 import {
   createContext,
   ReactNode,
@@ -84,11 +84,12 @@ export const UserProvider = ({ children }: IChildren) => {
           getAllUsers,
         }}
       >
-        {loading ? (
-          <Spin tip="Loading..." indicator={<LoadingOutlined />}></Spin>
+       {/*  {loading ? (
+          <Spin tip="Loading..." fullscreen indicator={<LoadingOutlined />}></Spin>
         ) : (
           children
-        )}
+        )} */}
+        {children}
       </UserContext.Provider>
     </>
   );

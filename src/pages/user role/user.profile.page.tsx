@@ -173,7 +173,7 @@ const UserProfilePage = () => {
                           await userSvc.postRequest(`/user/${id}/follow`, {});
                           setIsFollowing((prev) => !prev);
 
-                          const currentUserId = userDetails._id; // Replace with actual logged-in user's id
+                          const currentUserId = userDetails!._id;
 
                           setUserData((prevData) =>
                             prevData

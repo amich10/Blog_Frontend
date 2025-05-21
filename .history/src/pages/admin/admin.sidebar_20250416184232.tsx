@@ -1,3 +1,0 @@
-const AdminSideBar = () => {
-    return
-}

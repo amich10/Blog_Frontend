@@ -1,4 +1,0 @@
-
-type IChildren ={
-    children:ReactNode
-}

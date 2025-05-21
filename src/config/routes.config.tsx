@@ -1,39 +1,40 @@
+import React from "react";
 import { createBrowserRouter } from "react-router";
-import { lazy, Suspense } from "react";
+import { Suspense } from "react";
 import { Spin } from "antd";
 
-import CategoryList from "../pages/category/admin.category";
-import UserList from "../pages/users/admin.user.list";
-import CreateUser from "../pages/users/admin.adduser";
-import UserEdit from "../pages/users/admin.user.edit";
-import AddCategory from "../pages/category/add.category";
-import EditCategory from "../pages/category/edit.category";
-import PostList from "../posts/posts.list";
-import CreatePost from "../posts/post.create";
-import EditPost from "../posts/edit.post";
-import UserHomePage from "../pages/user role/home page/user.home.page";
-import ListPosts from "../pages/user role/home page/list.post";
-import CreateBlog from "../pages/user role/home page/create.blog";
-import PostDetail from "../pages/user role/post.detail";
-import ProfilePage from "../pages/user role/home page/profile.page";
-import UserProfilePage from "../pages/user role/user.profile.page";
-import AdminDashBoard from "../pages/admin/admin.dashboard";
-import EditProfile from "../pages/user role/edit.profle";
-import NotFound from "../pages/not.found";
-import AdminPannelPage from "../Layouts/admin.layout/admin.pannel";
-
-const RegisterPage = lazy(() => import("../pages/auth/register/register.page"));
-const HomePage = lazy(() => import("../pages/home/home.page"));
-const ForgetPasswordPage = lazy(() => import("../pages/auth/forget-password/forget-password"));
-const ActivateAccountPage = lazy(() => import("../pages/auth/activate-account/ativate-account"));
-const ResetPasswordPage = lazy(() => import("../pages/auth/forget-password/reset-password"));
-
+const CategoryList = React.lazy(() => import("../pages/admin/category/admin.category"));
+const AddCategory = React.lazy(() => import("../pages/admin/category/add.category"));
+const EditCategory = React.lazy(() => import("../pages/admin/category/edit.category"));
+const PostList = React.lazy(() => import("../pages/admin/posts/posts.list"));
+const CreatePost = React.lazy(() => import("../pages/admin/posts/post.create"));
+const EditPost = React.lazy(() => import("../pages/admin/posts/edit.post"));
+const PostDetail = React.lazy(() => import("../pages/user role/post.detail"));
+const UserProfilePage = React.lazy(() => import("../pages/user role/user.profile.page"));
+const AdminDashBoard = React.lazy(() => import("../pages/admin/admin.dashboard"));
+const EditProfile = React.lazy(() => import("../pages/user role/edit.profle"));
+const AdminPannelPage = React.lazy(() => import("../Layouts/admin.layout/admin.pannel"));
+const HomePage = React.lazy(() => import("../pages/auth/login.page"));
+const RegisterPage = React.lazy(() => import("../pages/auth/register.page"));
+const ForgetPasswordPage = React.lazy(() => import("../pages/auth/forget-password"));
+const ActivateAccountPage = React.lazy(() => import("../pages/auth/ativate-account"));
+const ResetPasswordPage = React.lazy(() => import("../pages/auth/reset-password"));
+const UserList = React.lazy(() => import("../pages/admin/users/admin.user.list"));
+const CreateUser = React.lazy(() => import("../pages/admin/users/admin.adduser"));
+const UserEdit = React.lazy(() => import("../pages/admin/users/admin.user.edit"));
+const NotFoundPage = React.lazy(() => import("../pages/not found/not.found"));
+const UserHomePage = React.lazy(() => import("../Layouts/user.layout/user.home.page"));
+const ListPosts = React.lazy(() => import("../pages/user role/list.post"));
+const CreateBlog = React.lazy(() => import("../pages/user role/create.blog"));
+const ProfilePage = React.lazy(() => import("../pages/user role/profile.page"));
+import { LoadingOutlined } from "@ant-design/icons";
+import EditBlog from "../pages/user role/edit.post";
 
 export const router = createBrowserRouter([
   {
     path: "/",
     element: (
-      <Suspense fallback={<Spin fullscreen tip="Loading...." size="default" />}>
+      <Suspense fallback={<Spin tip="Loading...." size="default" indicator={<LoadingOutlined/>} />}>
         <HomePage />
       </Suspense>
     ),
@@ -57,7 +58,9 @@ export const router = createBrowserRouter([
   {
     path: "activate/:activationToken",
     element: (
-      <Suspense fallback={<Spin fullscreen tip="Verifying account..." size="default" />}>
+      <Suspense
+        fallback={<Spin fullscreen tip="Verifying account..." size="default" />}
+      >
         <ActivateAccountPage />
       </Suspense>
     ),
@@ -65,7 +68,9 @@ export const router = createBrowserRouter([
   {
     path: "verify-token/:forgetToken",
     element: (
-      <Suspense fallback={<Spin fullscreen tip="Verifying token...." size="large" />}>
+      <Suspense
+        fallback={<Spin fullscreen tip="Verifying token...." size="large" />}
+      >
         <ResetPasswordPage />
       </Suspense>
     ),
@@ -73,14 +78,16 @@ export const router = createBrowserRouter([
   {
     path: "admin",
     element: (
-      <Suspense fallback={<Spin fullscreen tip="Loading Admin..." size="large" />}>
-        <AdminPannelPage/>
+      <Suspense
+        fallback={<Spin fullscreen tip="Loading Admin..." size="large" />}
+      >
+        <AdminPannelPage />
       </Suspense>
     ),
     children: [
       {
         index: true,
-        element: <AdminDashBoard/>
+        element: <AdminDashBoard />,
       },
       {
         path: "posts",
@@ -125,31 +132,39 @@ export const router = createBrowserRouter([
     element: <UserHomePage />,
     children: [
       {
-        index: true, 
-        element: <ListPosts />,
+        index: true,
+        element: <Suspense fallback= {<Spin fullscreen tip="Loading posts..." size="large" indicator={<LoadingOutlined/>}/>}>
+          <ListPosts/>
+        </Suspense>,
       },
       {
         path: "create",
         element: <CreateBlog />,
       },
       {
-        path:":slug",
-        element:<PostDetail/>
-      },{
-        path:"my-profile",
-        element:<ProfilePage/>
-      },{
-        path:'profile/:id',
-        element:<UserProfilePage/>
-      }
-      ,{
-        path:"profile-edit",
-        element:<EditProfile/>
-      }
+        path: ":slug",
+        element: <PostDetail />,
+      },
+      {
+        path: "my-profile",
+        element: <ProfilePage />,
+      },
+      {
+        path:"edit/:slug",
+        element:<EditBlog/>
+      },
+      {
+        path: "profile/:id",
+        element: <UserProfilePage />,
+      },
+      {
+        path: "profile-edit",
+        element: <EditProfile />,
+      },
     ],
-  },{
-    path:"*",
-    element:<NotFound/>
-  }
-  
+  },
+  {
+    path: "*",
+    element: <NotFoundPage/>,
+  },
 ]);
