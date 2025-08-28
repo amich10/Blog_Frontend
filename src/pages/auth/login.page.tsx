@@ -18,7 +18,7 @@ interface Icredentails {
 
 const HomePage = () => {
   const { login, userDetails } = useAuth();
-  const [loading,setLoading] = useState(false)
+  const [_loading,setLoading] = useState(false)
   const navigate = useNavigate();
 
   const LoginDTO = yup.object({

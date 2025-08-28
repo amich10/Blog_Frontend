@@ -5,8 +5,8 @@ import '@ant-design/v5-patch-for-react-19';
 import RouterConfig from "./config/router.config";
 
 createRoot(document.getElementById('root')!).render(
-  //<React.StrictMode>
+  <React.StrictMode>
     <RouterConfig />
-  //</React.StrictMode>
+  </React.StrictMode>
 
 );

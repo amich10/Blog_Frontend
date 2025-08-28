@@ -5,7 +5,7 @@ import {
 } from "../../../components/input.component";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { Navigate, useNavigate, useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import categorySVc from "../../../services/category.service";
 import notifcation, { NotificationType } from "../../../utilities/helpers";
 import * as Yup from "yup";

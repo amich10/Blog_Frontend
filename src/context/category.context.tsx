@@ -1,10 +1,10 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
-import { Spin, TablePaginationConfig } from "antd";
+import { TablePaginationConfig } from "antd";
 import { useAuth } from "./auth.context";
 import { IResponseType } from "../services/http.service";
 import notifcation, { NotificationType } from "../utilities/helpers";
 import categorySVc from "../services/category.service";
-import { LoadingOutlined } from "@ant-design/icons";
+
 
 
 export interface IResult {

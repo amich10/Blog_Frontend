@@ -1,4 +1,4 @@
-import { Spin } from "antd";
+
 import {
   createContext,
   ReactNode,
@@ -8,7 +8,6 @@ import {
 } from "react";
 import userSvc from "../services/user.service";
 import { useAuth } from "./auth.context";
-import { LoadingOutlined } from "@ant-design/icons";
 
 export interface IUserType {
   image: {
@@ -52,7 +51,7 @@ const UserContext = createContext<IUserContext | undefined>(undefined);
 
 export const UserProvider = ({ children }: IChildren) => {
   const [users, setUsers] = useState<IUserType[]>([]);
-  const [loading, setLoading] = useState<boolean>(false);
+  const [_loading, setLoading] = useState<boolean>(false);
 
   const { userDetails } = useAuth();
 

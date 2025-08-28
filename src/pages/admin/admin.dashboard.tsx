@@ -1,21 +1,17 @@
 import {
-  ArrowUpOutlined,
-  CommentOutlined,
   EditOutlined,
-  EyeOutlined,
+
   FileImageOutlined,
-  MoreOutlined,
+
   PlusOutlined,
   TagsOutlined,
   UserAddOutlined,
   UserOutlined,
 } from "@ant-design/icons";
 import {
-  Avatar,
   Button,
   Card,
   Layout,
-  List,
   Statistic,
   Typography,
 } from "antd";
@@ -23,13 +19,13 @@ import { useUsers } from "../../context/user.context";
 import { useCategory } from "../../context/category.context";
 import { useNavigate } from "react-router";
 import { usePost } from "../../context/post.context";
-const { Title, Text } = Typography;
+const { Title } = Typography;
 
 const AdminDashBoard = () => {
   const navigate = useNavigate();
   const { users } = useUsers();
   const { data } = useCategory();
-  const {posts,setPosts} = usePost()
+  const {posts} = usePost()
 
   return (
     <>

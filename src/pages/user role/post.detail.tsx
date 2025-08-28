@@ -49,7 +49,7 @@ const PostDetail = () => {
   const [liked, setLiked] = useState<boolean>(false);
   const { users } = useUsers();
   const { data } = useCategory();
-  const { userDetails,setUserDetails } = useAuth();
+  const { userDetails} = useAuth();
   const navigate = useNavigate();
 
   const fetchPost = async () => {

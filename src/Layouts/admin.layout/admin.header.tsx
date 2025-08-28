@@ -1,10 +1,8 @@
 import { Layout, Button, Dropdown } from "antd";
 import {
-  KeyOutlined,
   LogoutOutlined,
   MenuFoldOutlined,
   MenuUnfoldOutlined,
-  UserOutlined,
 } from "@ant-design/icons";
 import { PiUserListLight } from "react-icons/pi";
 import type { MenuProps } from "antd";

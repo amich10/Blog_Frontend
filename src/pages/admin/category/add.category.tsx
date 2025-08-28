@@ -19,14 +19,10 @@ import {
 import { PiUploadLight } from "react-icons/pi";
 import { useNavigate } from "react-router";
 
-interface ICategory {
-  title: string;
-  status: string;
-  image: string | null;
-}
+
 
 const AddCategory = () => {
-  const [loading, setLoading] = useState<boolean>(false);
+  const [_loading, setLoading] = useState<boolean>(false);
   const navigate = useNavigate();
 
   const addCategorySchema = Yup.object({

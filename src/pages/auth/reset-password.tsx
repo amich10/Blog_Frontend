@@ -15,7 +15,7 @@ const ResetPasswordPage = () => {
 
 
     const params=useParams()
-    const [token,setToken] = useState<string>("")
+    const [_token,setToken] = useState<string>("")
     const navigate= useNavigate()
   const resetPasswordDTO = yup.object({
     token: yup.string().required(),

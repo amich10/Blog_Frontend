@@ -2,8 +2,7 @@ import { createContext, ReactNode, SetStateAction, useContext, useEffect, useSta
 import authSvc from "../services/auth.service";
 import notifcation, { getLocalStorage, NotificationType, setLocalStorage } from "../utilities/helpers";
 import { webStorageConstants } from "../constants/constants";
-import { Spin } from "antd";
-import { LoadingOutlined } from '@ant-design/icons';
+
 
 export interface ICredentials {
   username: string;
@@ -54,7 +53,7 @@ export interface IAuthContext {
 
 export const AuthProvider = ({ children }: IChildrenProps) => {
   const [userDetails, setUserDetails] = useState<IUserDetails>();
-  const [loading,setLoading] = useState<boolean>(false)
+  const [_loading,setLoading] = useState<boolean>(false)
 
   const getLoggedInUser = async () => {
     try {

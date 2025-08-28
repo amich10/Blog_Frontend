@@ -1,9 +1,9 @@
-import { Layout, Typography, Upload, Button, Select } from "antd";
+import { Layout, Typography, Upload, Button} from "antd";
 import { UploadOutlined } from "@ant-design/icons";
-import { useForm, Controller } from "react-hook-form";
+import { useForm} from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { type UploadProps, type UploadFile } from "antd";
-import { useEffect, useState } from "react";
+import {useState } from "react";
 import * as Yup from "yup";
 import { useNavigate } from "react-router";
 import notifcation, { NotificationType } from "../../../utilities/helpers";

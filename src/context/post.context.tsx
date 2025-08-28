@@ -6,8 +6,8 @@ import {
   useState,
 } from "react";
 import { IPostsType } from "../interfaces/interfaces";
-import { Spin, TablePaginationConfig } from "antd";
-import { LoadingOutlined } from "@ant-design/icons";
+import { TablePaginationConfig } from "antd";
+
 import { useAuth } from "./auth.context";
 import postSvc from "../services/post.service";
 import notifcation, { NotificationType } from "../utilities/helpers";
