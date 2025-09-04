@@ -165,40 +165,9 @@ const RegisterPage = () => {
                 ]}
               />
             </div>
-            <div>
-              <InputLabel htmlFor="role">Select role</InputLabel>
-              <SelectInputController
-                name="role"
-                control={control}
-                errorMsg={errors?.role?.message}
-                classes={`w-full`}
-                options={[
-                  { label: "author", value: "author" },
-                  { label: "reader", value: "user" },
-                ]}
-              />
-            </div>
+           
           </div>
-          <div className="mt-2">
-            <InputLabel htmlFor="bio">Bio</InputLabel>
-            <TextAreaController
-              name="bio"
-              control={control}
-              errorMsg={errors?.bio?.message}
-              placeholder="Enter your bio that represents you."
-            />
-          </div>
-          <div className="mt-3">
-            <InputLabel htmlFor="socialLinks" classses="block">
-              Social Media (url)
-            </InputLabel>
-            <TextAreaController
-              name="socialLinks"
-              control={control}
-              errorMsg={errors?.socialLinks?.message}
-              placeholder="Enter your Facebook URL here"
-            />
-          </div>
+          
           <div className="mt-3">
             <InputLabel htmlFor="image" classses="block">
               Profile Image
